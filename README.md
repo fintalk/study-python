@@ -22,7 +22,8 @@ Live Share を使ってリアルタイムでコードを同時編集するため
 ## 進め方
 1. 予習と宿題
     + 教科書の指定部分を各自読んで、宿題に取り組んでもらう。
-    + 宿題はDropbox内に置きますので、各自自分のディレクトリにコピペしてもらって問題に取り組んで下さい。
+    + 宿題に取組む際、submit ディレクトリにご自身の名前でディレクトリを作成してください。
+    + 問題は二回行ってもらう予定なので、自分のディレクトリ配下に一回目、二回目がわかるディレクトリをつくって、その下に問題を解いていって下さい。例： `submit/shinseitaro/no1` 
     + 宿題はこのレポジトリでも公開します。
 
 1. 授業
@@ -54,3 +55,33 @@ No|日付|予定ページ|memo
 12|2021年4月1日（木）|318|
 13|2021年4月8日（木）|363|
 14|2021年4月15日（木）|408|２回目終了
+
+
+## VSCodeの使い方
+
+
+![](https://i.imgur.com/Ltk3oht.jpg)
+
+### 拡張機能
++ マスト
+    + Japanese Language Pack for Visual Studio Code
+    + Python
+    + Live Share
+    + Todo Tree
++ オススメ
+    + Eva Theme 
+    + Github Theme
+    
+
+### 設定
++ オススメ: 
+    + Mouse Wheel Zoom
+    + Window Level Zoom
+
++ 配色テーマ
+    + monokai 
+
+## Markdown 
+
+
+
