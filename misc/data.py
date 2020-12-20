@@ -1,6 +1,6 @@
 import csv 
 from pprint import pprint
-f = "/tmp/MOCK_DATA (1).csv"
+f = "/tmp/MOCK_DATA (2).csv"
 
 def csv_to_dict(f):
 
