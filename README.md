@@ -11,17 +11,11 @@
 
 お手元のマシンに以下2つをインストールして下さい
 
-### エディタ
-[Visual Studio Code - Code Editing. Redefined](https://code.visualstudio.com/)
+1. エディタ [Visual Studio Code - Code Editing. Redefined](https://code.visualstudio.com/)
+1. ファイルホスティングサービス [Dropbox](https://www.dropbox.com/)
+    + ファイルシェアをしますのでDropboxに登録したメールアドレスを shinseitaro にご連絡下さい。
 
-Live Share を使ってリアルタイムでコードを同時編集するために使います
-
-### ファイルホスティングサービス
-[Dropbox](https://www.dropbox.com/)
-
-ファイルシェアをしますのでDropboxに登録したメールアドレスを shinseitaro にご連絡下さい。
-
-### 教科書
+## 教科書
 
 [みんなのPython 第4版 ](https://www.amazon.co.jp/dp/479738946X)(2016年出版ですので、中古本が1800円前後であります。)
 
@@ -35,6 +29,7 @@ Live Share を使ってリアルタイムでコードを同時編集するため
 1. 授業
     + 予習と宿題が終わっている事を前提に進めます。
     + 解いてもらった宿題を見ながら解説します。
+    + `materials` ディレクトリにその日の授業のポイントをまとめています。
 1. 問題を作成
     + 今日学んだ内容で、問題を作成してもらいます。
     + 他の人が作った問題を次回までに宿題として解いてもらいます。
