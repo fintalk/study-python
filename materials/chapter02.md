@@ -166,7 +166,28 @@
     >>> del names[0]
     >>> names
     ['Harry', 'George', 'Noah', 'Jack', 'Jacob', 'Leo', 'Oscar', 'Charlie', 'Muhammad']
-    ```    
+    ```
+    + では、破壊的変更を行わずにどのようにnamesから0番目をなくすか？よく使う方法は、 names をコピーしてコピーしたリストを破壊的に変更するという方法です。
+    ```python
+    >>> names = ['Oliver', 'Harry', 'George', 'Noah', 'Jack', 'Jacob', 'Leo', 'Oscar', 'Charlie', 'Muhammad']
+    # names_2 に names をコピーしたデータを代入。
+    # names[:] はリストをコピーして新規作成
+    >>> names_2 = names[:] 
+    >>> names_2
+    ['Oliver', 'Harry', 'George', 'Noah', 'Jack', 'Jacob', 'Leo', 'Oscar', 'Charlie', 'Muhammad']
+
+    # names_2 を破壊的変更
+    >>> del names_2[0]  
+    >>> names_2
+    ['Harry', 'George', 'Noah', 'Jack', 'Jacob', 'Leo', 'Oscar', 'Charlie', 'Muhammad']
+
+    # コピー元の nemes は無傷
+    >>> names
+    ['Oliver', 'Harry', 'George', 'Noah', 'Jack', 'Jacob', 'Leo', 'Oscar', 'Charlie', 'Muhammad']
+    >>> 
+    ```
+    ポイントは、 `names_2 = names[:]`。`names_2 = names` ではダメ。
+    
 + スライスを使って複数の要素を取得
     + **メモ**：インデックスというのは要素の位置番号ではなく、**境目の番号**
     ```
@@ -207,7 +228,7 @@
 + 多次元も可
     ```python
     >>> girls = ['Olivia', 'Amelia', 'Isla', 'Ava', 'Emily', 'Isabella', 'Mia', 'Poppy', 'Ella', 'Lily']
-    >>> names = [names,girls]
+    >>> names = [names,girls] # さっき作った names を利用
     >>> names
     [
         ['Oliver', 'Harry', 'George', 'Noah', 'Jack', 'Jacob', 'Leo', 'Oscar', 'Charlie', 'Muhammad'], 
