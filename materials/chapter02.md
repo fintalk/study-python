@@ -372,7 +372,163 @@
     ```
 
 ## 関数を使う
+
++ 関数とは？
+    + 入力を引き取って（引数）、演算（計算）して、出力を返す（return）する一連の流れを上から順の記述したもの。その関数に処理名をつけてどこででも使えるようにしておくための仕組み。
+    + 例：消費税込の価格を返す関数
+    ```python
+    def calc_with_tax(price, rate=0.1): 
+        return int(price * (1 + rate)) 
+
+    >>> calc_with_tax(100)
+    110
+    >>> calc_with_tax(1586)
+    1744
+
+    # もし明日、消費税が５％に下がったとしても、
+    # rateの指定だけ変えれば関数じたいに変更を加える必要はない
+    >>> calc_with_tax(10000, rate=0.05) 
+    10500        
+    ```
+    + 処理名: calc_with_tax, 
+    + 引数: price 税前価格、rate: 消費税の利率（デフォルト0.1）
+    + 演算: 税前価格に税金を加味した価格を整数にする
+    + 出力：整数
+
++ 関数を作ると便利
+    1. 一度作ると使い回せる
+    1. バグを見つけた場合、関数さえ書き直せばそれがすべてに反映される
+    1. 引数にデフォルト値を指定しておくことができる
+
+### 関数の定義
+```python
+def 関数名():
+    処理用のコード
+```
++ 関数名は
+    + 小文字、数値を使う
+    + つなぎは `_` 
+    + 何を行っている関数なのかはっきりわかるネーミング
++ 引数：
+    + ゼロ個以上
+    + なしでもOK
+    + ネーミングルールは関数名と同じ
++ 戻り値：
+    + return 文で記述
+    + 当該関数で得たい結果を return 文で返す
+    + 必ず必要というわけではないが、だいたいの関数には return がある。
+    + return 文以降の処理は行わない。例：このように書くと、return より後ろは処理されません。
+    ```python 
+    def count():
+        print("1")
+        print("2")
+        print("3")
+        return 
+        print("4")
+        print("5")
+
+    >>> count()
+    1
+    2
+    3
+    ```    
+
+### ローカル変数
++ （ここでは）関数の中の変数のこと
++ ローカル変数は、関数の外では使えない
+    ```python 
+    def get_data(l, n):
+        return l[n]
+
+    >>> l
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    NameError: name 'l' is not defined
+    ```
+    + `l` は `get_data` 関数の中で使われている変数。
+    + 関数の外では定義されていないし（`ｌ`に変数を代入していない）ので、`NameError: name 'l' is not defined` と怒られる。
+
 + [組み込み関数 — Python 3.9.1 ドキュメント](https://docs.python.org/ja/3/library/functions.html)
 
 
 ## モジュールを使う
++ モジュールとは、同じような特徴を持つ機能をひとまとめに .py に記述しておいて、それを他の .py ファイルで使えるようにしたもの
++ 標準ライブラリも python インストール時にPCに保存されています。
++ みてみましょうー！ターミナルで、
+    ```bash
+    # mac/linux
+    which python 
+    ```
+    ```bash
+    # windows
+    where python 
+    ```
++ 出てきたパスの最後の `/lib/python` を消した前の部分だけコピー
+    ``` bash
+    # 私の場合
+    $ which python 
+    /home/shinseitaro/miniconda3/envs/py37/bin/python
+
+    # なので
+    # /home/shinseitaro/miniconda3/envs/py37
+    ```
+    
++ ホルダを開くいて、このパスに移動
++ その下の **`lib`** ホルダを開く
++ その下の **`python`** で始まるホルダを開く
++ その下にあるホルダや .py ファイルがモジュールです
++ `os.py` を開いてみましょう。
+    + `os.py` には、ディレクトリやファイルをを操作するモジュールです。
+    + たとえば `makedirs` 関数。ディレクトリを作成する関数です。
+    + makedirsをこのファイルで検索してみましょう。このような定義が見つかると思います。
+    ```python
+    def makedirs(name, mode=0o777, exist_ok=False):
+        :
+        :
+
+    ```
+    + このようによく使う関数は先に定義してあります。このような定義を**必要な時に必要な分だけインポート**して使うことが出来るのがモジュールです
+    + <font color="red">注意</font>： `os.py` のように標準に定義してあるファイルは絶対に書き換えてはいけません。
+
+### モジュールの使い方
++ インポートする。
+    + インポートとは、さっきみたファイルを、自分の .py で使えるようにすることです。
+    + import 文を使いますが、書き方が2つあります。
+    1. モジュールファイル全部をインポートする。
+        ```python 
+        import os
+        ```
+        このように書くと `os` モジュールに入っている全ての関数が `os.関数名` で利用出来ます。
+        ```python 
+        import os
+        os.makedirs("/home/shinseitaro/newdir1/newdir2/")
+        ```
+    1. 使いたい関数だけインポートする
+        ```python 
+        from os import makedirs
+        ```
+        このようにかくと、`os.関数名` と書かずに `makedirs`だけでOKです
+        ```python 
+        from os import makedirs
+        makedirs("/home/shinseitaro/newdir1/newdir2/")
+        ```
+    + 好きな方を使って下さい。どっちがいいとかは、趣味の世界の問題なのでどちらでもいいです。
++ インポートしたモジュールに違う名前をつける
+    + モジュール名が長すぎる、とかその他の理由でモジュール名に違う名前をつけてる事があります。たとえば、fintalk でもよく使う pandas や numpy はしばしば `pd`, `np` とリネームされます。
+        ```python
+        import pandas as pd 
+        import numpy as np
+        ```
+        このようにリネームした場合は、`リネーム名.関数名` で記述します。
+        ```python
+        import pandas as pd 
+        import numpy as np
+
+        pd.DataFrame()
+        np.float(1)
+        ```
+
+
+
+
+
