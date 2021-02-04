@@ -445,3 +445,651 @@ list_name = ["shinsei taro", "kono taro", "okamoto taro"]
     File "<stdin>", line 1, in <module>
     ValueError: not enough values to unpack (expected 3, got 2)
     ```
+
+--- 
+
+### スライスのステップ数
+
++ シーケンスのスライス
+    ```python
+    >>> a = [1,2,3,4,5]
+    >>> a
+    [1, 2, 3, 4, 5]
+    >>> a[2:]
+    [3, 4, 5]
+    >>> a[:-2]
+    [1, 2, 3]
+    >>> a[-2:]
+    [4, 5]
+    >>> a[2:4]
+    [3, 4]
+    >>> a[-1]
+    5
+    >>> a[1]
+    2
+    >>> a[::2]
+    [1, 3, 5]
+    >>> a[:]
+    [1, 2, 3, 4, 5]
+    ```
++ 図(?)にしてみるとこんな感じ
+    slice|1|2|3|4|5
+    ---|---|---|---|---|---
+    a[1]||●|||
+    a[-1]|||||●
+    a[2:]|||●|●|●
+    a[:-2]|●|●|●||
+    a[-2:]||||●|●
+    a[2:4]|||●|●|
+    a[::2]|●||●||●
+    a[:]|●|●|●|●|●
+
+### スライスを使った要素の代入と削除
++ スライスで代入出来る
+    ```python
+    >>> a = [1,2,3,4,5]
+    >>> a[2:4] = ["three","four"]
+    >>> a
+    [1, 2, 'three', 'four', 5]
+    ```
+    ```python
+    # スライスで区切った要素数と、代入する要素数が異なっていでも代入可
+    >>> a = [1,2,3,4,5]
+    >>> a[2:4] = ["three"] 
+    >>> a
+    [1, 2, 'three', 5]
+    ```
++ del文で削除可
+    ```python
+    >>> a = [1,2,3,4,5]
+    >>> del a[2:]
+    >>> a
+    [1, 2]    
+    ```    
+
+### リストで利用出来るメソッド
++ リストのメソッドは今までもいろいろ使って来ましたがもう一度おさらいしましょう
++ `L`はリストオブジェクトを意味しています。
++ `L.reverse()`
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> names.reverse()
+    >>> names
+    ['Isabella', 'Sophia', 'Ava', 'Emma', 'Olivia']
+    ```
++ `L.remove(削除する要素)`
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> names.remove("Emma")
+    >>> names
+    ['Olivia', 'Ava', 'Sophia', 'Isabella']
+    ```    
++ `L.append(最後尾に追加する要素)`
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> names.append("Charlotte")
+    >>> names
+    ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella', 'Charlotte']
+    ```
++ `L.extend(最後尾に追加するリスト)`
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> names.extend(["Amelia", "Mia"])
+    >>> names
+    ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella', 'Amelia', 'Mia']
+    ```
++ `L.pop([削除するインデックス])`
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> names.pop() # 引数無しの場合は最後のインデックス（つまり-1）の要素
+    'Isabella'
+    >>> names
+    ['Olivia', 'Emma', 'Ava', 'Sophia']    
+    ```
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> names.pop(1)
+    'Emma' # 指定したインデックスの要素
+    >>> names
+    ['Olivia', 'Ava', 'Sophia', 'Isabella']
+    ```
+    + pop はこれまでのメソッドとは違い、削除される要素を値として返します。
+    + よって、削除されたインデックスの要素を一旦変数に入れておくということも出来ます。
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> popped = names.pop(1)
+    >>> popped
+    'Emma'
+    >>> names
+    ['Olivia', 'Ava', 'Sophia', 'Isabella']
+    ```    
++ `L.index(検索したい要素 [, 開始インデックス, 終了インデックス])`
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> names.index("Emma")
+    1
+
+    # 開始インデックスを指定すると、そのインデックス以降のリストから検索する
+    # つまりこの場合 names[2:] から "Emma" のインデックスを探そうとするので、ValueError が返る
+    >>> names.index("Emma", 2)
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    ValueError: 'Emma' is not in list
+    ```
+
+## set 型を使いこなす
+
++ おさらい：
+    + set型：重複なしのデータの集まり
+    + 集合演算をする時に便利
+    + 順番という発想はない
+
+### set のメソッド
+
++  `S` はセットオブジェクトを意味しています
++ 以下2つのセットで説明します
+    ```python
+    >>> s1
+    {'A', 'B', 'C', 'D', 'E'}
+    >>> s2
+    {'C', 'D', 'E', 'X', 'Y'} 
+    ```
++ `S.union(もう一つのセット)`: 和集合
+    ```python 
+    >>> s1.union(s2)
+    {'E', 'X', 'A', 'B', 'Y', 'D', 'C'}
+    >>> s1 | s2
+    {'E', 'X', 'A', 'B', 'Y', 'D', 'C'}
+    ```
+
++ `S.intersction()`：交わり
+    ```python 
+    >>> s1.intersection(s2)
+    {'D', 'E', 'C'}
+
+    >>> s1 & s2
+    {'D', 'E', 'C'} 
+    ```
++ `S.difference()`：差集合
+    ```python 
+    >>> s1.difference(s2)
+    {'B', 'A'}
+    >>> s1 - s2
+    {'B', 'A'}
+    ```
++ `S.symmetric_difference()`：対象差
+    ```python 
+    >>> s1.symmetric_difference(s2)
+    {'X', 'A', 'Y', 'B'}
+    >>> s1 ^ s2
+    {'X', 'A', 'Y', 'B'}
+    ```
++ `S.add()`: 要素を破壊的に追加
+    ```python 
+    >>> s1.add("Q")
+    >>> s1
+    {'E', 'A', 'B', 'Q', 'D', 'C'}
+    ```
++ `S.remove()`：要素を破壊的に変更
+    ```python 
+    >>> s2.remove("Y")
+    >>> s2
+    {'E', 'X', 'D', 'C'}
+    ```
+
+## ディクショナリ型を使いこなす
++ 辞書の作るいろいろな方法
+    ```python
+    # 空の辞書を作る
+    >>> d1 = dict()
+    >>> d2 = {}
+    >>> d1
+    {}
+    >>> d2
+    {}
+
+    # 要素を入れながら辞書を作る
+    ## 辞書そのものを dict() 関数に入れて作る方法（元の辞書のコピー）
+    >>> d3 = dict({1: 'taro', 2: 'jiro', 3: 'hanako'})
+    >>> d3
+    {1: 'taro', 2: 'jiro', 3: 'hanako'}
+
+    ## 2つの要素を持つシーケンスのリストから作る方法
+    >>> d4 = dict([
+        [1, "taro"], 
+        [2, "jiro"], 
+        [3, "hanako"]
+        ])
+    >>> d4
+    {1: 'taro', 2: 'jiro', 3: 'hanako'}
+
+    ## key と value の組み合わせから作る
+    ## しかしこの場合、キーが数値の辞書は作成不可
+    >>> d5 = dict(1="taro", 2="jiro",3="hanako")
+    File "<stdin>", line 1
+    SyntaxError: expression cannot contain assignment, perhaps you meant "=="?
+
+    ## キーとして使うのは文字列のみ。かつ、文字列型として渡すのではなくキーワード引数として渡す。
+    >>> d5 = dict(one="taro", two="jiro",three="hanako")
+    >>> d5
+    {'one': 'taro', 'two': 'jiro', 'three': 'hanako'}
+
+    ## 文字列型としてキーを渡すとSyntaxError
+    >>> d5 = dict("one"="taro", "two"="jiro","three"="hanako")
+    File "<stdin>", line 1
+    SyntaxError: expression cannot contain assignment, perhaps you meant "=="?
+
+    ## zip を使う（P200）
+    >>> d6 = dict(zip([1,2,3], ["taro", "jiro", "hanako"]))
+    >>> d6
+    {1: 'taro', 2: 'jiro', 3: 'hanako'}
+
+    ```
+### update メソッド
+
++ 2つの辞書を破壊的に結合する
++ 引数に渡した方の辞書のキーで更新される
+    ```python 
+    >>> d1
+    {1: 'taro', 2: 'jiro', 3: 'hanako'}
+    >>> d2
+    {3: 'tanaka', 4: 'yoshida', 5: 'yamada'}
+    >>> d1.update(d2)
+    >>> d1
+    {1: 'taro', 2: 'jiro', 3: 'tanaka', 4: 'yoshida', 5: 'yamada'} # キー３は、d2のキーで更新（上書き）されたので 3: 'tanaka'　になった
+    ```
+
+### get メソッド（ディクショナリのキーをスマートに使う）
+
++ `D.get(キーワード, [なかった場合に返す値])`
++ 辞書をキーでアクセスすると、そのキーが無い場合は `KeyError` もしくはオプション引数に渡した値
++ get()メソッドを使うと、`KeyError` ではなく `None` を返す
+    ```python
+    >>> d = {1: 'taro', 2: 'jiro', 3: 'hanako'}
+    >>> d[1]
+    'taro'
+    >>> d[10]
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    KeyError: 10
+
+    >>> d.get(1)
+    'taro'
+    >>> d.get(10) 
+    >>>  # Noneを返している。インタープリタでは見えない。
+    >>> type(d.get(10)) # None を返しているのを確認するために type 関数に入れてみる
+    <class 'NoneType'>
+
+    # キーがなかった場合に返す値の指定も可
+    >>> d.get(10, "無いです!")
+    '無いです!'
+    ```
++ これを使うと、結構幸せになることが多い。
++ 教科書の例を簡単に説明
+
+```python 
+>>> str_list = list("ABCDABCDEFG")
+>>> str_list
+['A', 'B', 'C', 'D', 'A', 'B', 'C', 'D', 'E', 'F', 'G']
+
+# str_list の各要素が何個入っているか、という辞書 d を作成したい。
+# この辞書にキーとして各要素、値として出現回数を入れる
+# つまり最終的な d は このような辞書になる
+>>> d
+{'A': 2, 'B': 2, 'C': 2, 'D': 2, 'E': 1, 'F': 1, 'G': 1}
+
+# まずは空の辞書を作成
+>>> d = dict()
+# str_list を for 文でループ
+>>> for s in str_list:
+        # 辞書 d に d[要素]で値を入れる。
+        # 入れる値は、d.get(要素, なければ0)
+        d[s] = d.get(s,0) + 1
+
+>>> d
+{'A': 2, 'B': 2, 'C': 2, 'D': 2, 'E': 1, 'F': 1, 'G': 1}
+```
++ ポイントは、for 文が回っている間 d は更新し続けられている。
++ よって、`d.get(s,0)` することで、キーがすでに存在していればその値、していなければ0を d[s]に入れる
++ ` + 1` は、カウンターの役目
+    + 例：最初のAの場合
+    ```python
+    d["A"] = d.get("A",0) + 1
+    ```
+    + これはこのようになるので
+    ```python
+    d["A"] = 0 + 1
+    ```
+    + `d["A"] は 1` になる。
+    + そして二回目のAでは
+    ```python
+    d["A"] = d.get("A",0) + 1
+    ```
+    + これはすでに d["A"] は1なので、このようになり
+    ```python
+    d["A"] = 1 + 1
+    ```
+    + `d["A"] は 2` になる
+
+### ディクショナリのメソッド
+
++  `D` はセットオブジェクトを意味しています
++ 以下の辞書で説明します。
+    ```python 
+    d = {1: 'taro', 2: 'jiro', 3: 'hanako'}
+    ```
++ `D.keys()` ：辞書のキー一覧をリストで返す
+    ```python 
+    >>> d.keys()
+    dict_keys([1, 2, 3])
+    ```
++ `D.values()`: 辞書の値をリストで返す
+    ```python 
+    >>> d.values()
+    dict_values(['taro', 'jiro', 'hanako'])
+    ```
++ `D.items()` : キーと値をタプルにして、リストとしてを返す
+    ```python 
+    >>> d.items()
+    dict_items([(1, 'taro'), (2, 'jiro'), (3, 'hanako')])
+    ```
+
++ `D.get(キー, [ない場合に返す値])` :辞書のキーの値を返す。ない場合に返す値をオプションで与えることも出来る
+    ```python 
+    >>> d.get(3)
+    'hanako'
+
+    >>> d.get(4) # ない場合は None を返す。インタープリタの場合は表示はない
+
+    >>> d.get(1, "ありません") # ない場合の返す値を指定する。
+    'taro'
+    >>> d.get(4, "ありません")
+    'ありません'
+    ```
++ `D.setdefault(キー, [ない場合はそのキーに当てはめる値])` : getに似ているが、キーが無い場合はそのキーと値を破壊的に追加できる。
+    ```python
+    >>> d.setdefault(1, "tanaka")
+    'taro'
+    >>> d.setdefault(4, "tanaka") # キー４はなかったので与えられた値を設定
+    'tanaka'
+    >>> d # 破壊的に変更された
+    {1: 'taro', 2: 'jiro', 3: 'hanako', 4: 'tanaka'}
+    ```    
++ `D.update(辞書)` ：渡した辞書で破壊的に更新する。同じキーがあれば上書き
+    ```python 
+    >>> d.update({10:"yoshida"})
+    >>> d
+    {1: 'taro', 2: 'jiro', 3: 'hanako', 10: 'yoshida'}
+    ```
+
+## if文と組み込み型
+
+### 組み込み型と True/False
+
++ Pythonでは以下データを `False` とみなします。
+    + 0
+    + 空文字列
+    + 空シーケンス
+    + 空辞書
++ これ以外はTrueとみなします。よってこれを活かして if 文の条件分岐でよく使います。
++ 例：
+    ```python 
+    >>> a_list = []
+    >>> if a_list:
+    ...     print("a_list は空のリストではありません")
+    ... else:
+    ...     print("a_list は空のリストです")
+    ... 
+    a_list は空のリストです
+    ```
+
+### for 文と組み込み型
+
++ `range([開始数値], 終了数値, [ステップ])` ：開始数値やステップもオプションとして渡せる
+    ```python 
+    >>> list(range(10))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    >>> list(range(1, 10))
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    >>> list(range(1, 10, 3))
+    [1, 4, 7]
+    ```
++ range() 関数を使うと、作った数値リストを実際使うのではなく、ただたんに何回ループさせるかと処理させることが出来る
+    ```python 
+    >>> for i in range(3):
+    ...     print("Hello")
+    ... 
+    Hello
+    Hello
+    Hello
+    ```
+### シーケンスとループカウンタ
++ ループカウンタ：今何番目の要素を処理しているか知るためのカウンター
+    ```python
+    >>> names = ['Olivia', 'Emma', 'Ava', 'Sophia', 'Isabella']
+    >>> for name in names:
+    ...     print(name.upper()) 
+    ```
+    これだと、name を大文字にする処理はできるけど、今どの name を処理しているのかを知るにはちょっと手間。たとえば、
+    ```python 
+    >>> i = 0
+    >>> for name in names:
+    ...     print(i, name.upper())
+    ...     i = i + 1
+    ```
+    こうかけるけどちょっと冗長。こういう時にenumarate() 関数を使う
++ enumerate(リスト): 引き取ったリストを、(インデックス, 要素) というタプルに変換する関数
+    ```python 
+    >>> enumerate(names) # 返すのは enumerate オブジェクト
+    <enumerate object at 0x7fc3c7020880>
+    >>> list(enumerate(names)) # 中身を確認したい場合は list() 関数に渡す
+    [(0, 'Olivia'), (1, 'Emma'), (2, 'Ava'), (3, 'Sophia'), (4, 'Isabella')]
+    ```
++ これをループにかける時に、アンパック代入を使うと便利。さっきのコードはこのように書き直せます。
+    ```python 
+    >>> for i, name in enumerate(names):
+    ...     print(i, name.upper())
+    ```
+    + `i` に index, `name` に要素をいれています
+    + 変数名`i` はインデックスを表す時によく使います（教科書では cnt 使ってあるけどテヘペロ）
+
+### 2つのシーケンスを使ったループ
++ `zip()` 関数：2つのシーケンスを引数に取得し、同じインデックス番号のデータを一つのタプルにして返す
+    ```python
+    >>> boys = ['Oliver', 'George', 'Harry', 'Noah'] 
+    >>> girls = ['Olivia', 'Amelia', 'Isla', 'Ava']
+
+    >>> zip(boys, girls) # zip オブジェクトを返す
+    <zip object at 0x7fc3c7020c40>
+    >>> list(zip(boys, girls)) # 中身を確認したい場合は list() 関数に渡す
+    [('Oliver', 'Olivia'), ('George', 'Amelia'), ('Harry', 'Isla'), ('Noah', 'Ava')]
+
+    ```
++ これをループにかける時も、アンパック代入を使うと便利。
+    ```python 
+    >>> for b, g in zip(boys, girls):
+    ...     print(b, g)
+
+    Oliver Olivia
+    George Amelia
+    Harry Isla
+    Noah Ava
+    ```
++ これは、2つのリストから辞書を作る時にしばしば使います。
++ 例：「ディクショナリ型を使いこなす」のところで勉強したこの辞書の作り方。
+    ```python 
+    ## 2つの要素を持つシーケンスのリストから作る方法
+    >>> d4 = dict([
+        [1, "taro"], 
+        [2, "jiro"], 
+        [3, "hanako"]
+        ])
+    ```
+    ここで与えてるこのリスト
+    ```python 
+    [[1, "taro"], [2, "jiro"], [3, "hanako"]]
+    ```
+    これはzip関数をつかうとこのように作れるから
+    ```python
+    >>> zip([1,2,3], ["taro", "jiro", "hanako"])
+    <zip object at 0x7fc3c7020f00>
+    >>> list(zip([1,2,3], ["taro", "jiro", "hanako"]))
+    [(1, 'taro'), (2, 'jiro'), (3, 'hanako')]
+    ```
+    同じ辞書をこのように作成出来る
+    ```python
+    >>> dict(zip([1,2,3], ["taro", "jiro", "hanako"]))
+    {1: 'taro', 2: 'jiro', 3: 'hanako'}
+    ```
+
+## 関数と組み込み型
+
++ 関数の最後に書く return 文に、リストやタプルを返すと、戻り値をアンパック代入できて便利。
++ 例：
+    ```python 
+    # 数値リストを引数に取る関数を定義し、最大値、最小値、合計を返す関数
+    >>> def my_calc(l): 
+    ...     x = max(l)
+    ...     y = min(l)
+    ...     z = sum(l)
+    ...     return (x, y, z) # 返り値をタプルやリストで return 
+    ```
+    ```python 
+    # 通常実行
+    >>> my_calc(range(10))
+    (9, 0, 45)
+
+    # 返り値をアンパック代入する
+    >>> x, y, z = my_calc(range(10))
+
+    # アンパックした変数にデータがそれぞれ代入されている。
+    >>> x
+    9
+    >>> y
+    0
+    >>> z
+    45    
+    ```
+
+### 関数で引数リストを受け取る
++ 関数定義時、このように引き取る引数の変数を定義します。
+    ```python 
+    def my_func(x,y):
+        return x + y
+    ```
++ これって、**引き取るべき引数の数が先にわかっている**から出来ることです。
++ しかし、世の中そんなにうまく行かないので、先にわからないことも多い。
++ 何個必要か定義時にわからない引数のことを**可変長引数**といいます。
++ **可変長**とは、長さ（つまり引数の個数）が変更可能ということです。
++ つまり、何個でもこいやー！ってことです。
++ 可変長引数での関数定義：
+    ```python 
+    >>> def my_func(x, y, *args): # 絶対必要な引数は今まで通り、それ以外は * アスタリスクをつける）
+    ...     print(x, y, args) # コードの中では アスタリスクはつけずに使う
+    ... 
+    ```
+    ```python         
+    >>> my_func(10, 20, 30, 40, 50) # args に入る部分は、タプルにいれて返されます
+    10 20 (30, 40, 50)
+    ```
+    + 可変長引数の変数はしばしば `args` が使われます。
+
+### 関数でキーワード引数を受け取る
++ ↑の例では `*args` はタプルで返されました。
++ リストだと、インデックスで要素を取得する必要があります。
++ これだと、可変長引数が長くなるとだんだんわからなくなってきます。
++ そういう場合、キーワード引数を受け取るように書きます。
++ 例：
+    ```python 
+    >>> def my_func(x, y, **kwargs):
+    ...     print(x, y, kwargs)
+    ... 
+    >>> my_func(10, 20, z=30)
+    10 20 {'z': 30} # 突然現れる辞書！
+    ```
+    + `kwargs` という引数名がしばしば使われます。keyword args の略です。
+    + 突然現れる辞書！
+
+## Pythonの文字列と日本語
++ P204-P217までは飛ばします 
+
+### Pythonのファイル処理
+
++ `open(ファイルパス, 開くモード, エンコーディング)`：ファイルを開く関数
+    + ファイルパス: ファイルのフルパス
+    + 開くモード(とりあえず３つ。)
+        + `r`: 読み込み
+        + `w`: 書き込み（新規作成）
+        + `a`: 追加書き込み
+    + エンコーディング:
+        + encoding="utf-8" ほぼ一択でOKです。
+    + 返り値は、ファイルオブジェクト
++ memo: フルパスを調べる方法: `foo.txt` を開いて、右クリックからパスをコピー。
+![](https://i.imgur.com/tbfUqYh.jpg)
++ 例：
+    ```python 
+    >>> fpath = "/home/taro/study-python/data/foo.txt" # ご自身の foo.txt へのパスを入れてください
+
+    # open 関数でファイルを開く
+    >>> f = open(fpath, "r", encoding="utf-8")
+    # TextIOWrapperというオブジェクト。これがファイルオブジェクトです。
+    >>> type(f)
+    <class '_io.TextIOWrapper'>
+
+    # このオブジェクトからデータを read して初めて中のデータが取得。
+    >>> f.read()
+    '春はあけぼの。やうやう白くなり行く、山ぎはすこしあかりて、むらさきだちたる雲のほそくたびきたる。夏は夜。月のころはさらなり。やみもなほ、ほたるの多く飛びちがひたる。また、ただ一つ二つなど、ほのかにうち光りて行くもをかし。雨など降るもをかし。'
+
+    # 一度 read したら先ほどのオブジェクトは空になります。
+    >>> f.read()
+    ''
+
+    # close() メソッドでちゃんとファイルを閉じましょう
+    >>> f.close()
+    ```
+### ファイルオブジェクトのメソッド
++ `F` はファイルオブジェクトを意味します。
++ `F.read()` : ファイルをすべて読み込み文字列を返す。↑で説明したので例は飛ばします。
++ `F.readline()`：ファイルの一行目を読み込み文字列を返す。もう一度呼び出すと次の行を文字列で返す.最後まで終わったら、次の呼び出しで空の文字列を返す
+    ```python 
+    >>> fpath = "/home/taro/study-python/data/names.csv"
+    >>> f = open(fpath, "r", encoding="utf-8")
+    >>> f.readline()
+    '1,Tomasine,Kimmons,tkimmons0@wordpress.com,Female,171.244.84.34\n'
+    >>> f.readline()
+    '2,Aleksandr,Rahl,arahl1@addthis.com,Male,106.155.134.164\n'
+    :
+    :
+    '10,Donnell,Awcoate,dawcoate9@xing.com,Male,10.11.125.242\n'
+    >>> f.readline()
+    ''
+    ```
++ `F.readlines()`： ファイル全部読み込み、一行ずつ文字列にしたリストを返す
+    ```python
+    >>> f.readlines()
+    ['1,Tomasine,Kimmons,tkimmons0@wordpress.com,Female,171.244.84.34\n', 
+    '2,Aleksandr,Rahl,arahl1@addthis.com,Male,106.155.134.164\n', 
+    :
+    :
+    '10,Donnell,Awcoate,dawcoate9@xing.com,Male,10.11.125.242\n']
+    ```
+
+### ファイル書き込む
++ ファイルに書き込む場合は、 open() 関数に渡すモードを書き込みモードにする
++ `F.write(文字列)` ：ファイルに文字列を書き込む
+    ```python
+    >>> f = open("/tmp/hoge.txt", "w", encoding="UTF-8")
+    >>> f.write("ポニョ")
+    3 # ここで返される数値はよくわからないけど、ファイルの書き込みの最終シーク位置だと思う
+    >>> f.close() 
+    ```
+    + `f.close()` して初めて書き込まれる
++ `F.writelines(リスト)` ：リストをつなげて書き込む。改行はしない
+    ```python
+    >>> f = open("/tmp/hoge.txt", "w", encoding="UTF-8")
+    >>> f.writelines(["ポニョポニョ", "さかなのこ"])
+    >>> f.close()
+    ```
+
+
+
