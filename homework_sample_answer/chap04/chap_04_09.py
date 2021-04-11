@@ -12,7 +12,6 @@ print(address1.find("tokyo"))
 
 # s1 に ruby という単語があるかどうかBooleanで返して下さい。（Booleanで返す、とは True もしくは False で値を得ることです。真偽値で返すともいいます）
 print("ruby" in s1)
-print(s1.find("ruby") > 0) 
 
 # name1 が Swarbrick で始まっているかBooleanで返して下さい
 print(name1.startswith("Swarbrick"))

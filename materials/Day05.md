@@ -2,18 +2,17 @@
 
 しっとり、もっちり
 
-2021/02/04 19:30〜
+2021/02/11 13:00〜
 
 ## 課題
 
-+ P229〜P273
-+ chap_05_01.md〜chap_06_05.md
++ P229〜P252
++ chap_05_01.md〜chap_05_08.md
 
 
 ## 補助教材
 
 + `materials/chapter05.md`
-+ `materials/chapter06.md`
 
 
 ## スケジュール

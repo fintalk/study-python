@@ -28,12 +28,10 @@ data_list = [
 
 # 上から順に first_nameと score をプリントしていくが、'classB' のデータが来た場合、そこでストップする
 print("問題6-1", "-"*10)
-
 for data in data_list:
     cls = data["class"]
     name = data["first_name"]
     score = data["score"]
-
     if cls == 'classB':
         break 
     print(name, score)
@@ -45,7 +43,6 @@ for data in data_list:
     cls = data["class"]
     name = data["first_name"]
     score = data["score"]
-
     if cls == 'classB':
         continue
     print(name, score)
@@ -58,19 +55,16 @@ count_a = 0
 score_c = 0
 count_c = 0
 
+
 for data in data_list:
-    
     cls = data["class"]
     score = data["score"]
-
     if cls == 'classA':
         score_a = score_a + int(score)
         count_a = count_a + 1 
-
     elif cls == 'classC':
         score_c = score_c + int(score)
         count_c = count_c + 1 
-
     else:
         continue
 
@@ -88,10 +82,8 @@ count_female = 0
 
 
 for data in data_list:
-
     gender = data["gender"]
     score = data["score"]
-    
     if gender == 'Female':
         score_female = score_female + int(score)
         count_female = count_female + 1 
